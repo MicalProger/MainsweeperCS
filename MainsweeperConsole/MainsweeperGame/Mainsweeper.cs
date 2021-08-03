@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MainsweeperConsole
+namespace MainsweeperGame
 {
     public class Point
     {
@@ -42,21 +43,46 @@ namespace MainsweeperConsole
     public class Mainsweeper
     {
 
-
+        Stopwatch time;
+        public readonly int width, height, mines, attempts;
         public List<Point> GameField;
+        public Point GetPointByPosition(Point point)
+        {
+            return GameField.FirstOrDefault(i => i.X == point.X && i.Y == point.Y);
+        }
         public Mainsweeper(int xLenght, int yLenght, int mines, Point notGenerate)
         {
+            width = xLenght;
+            height = yLenght;
+            this.mines = mines;
             double k = 10 / xLenght * yLenght;
             GameField = new List<Point>();
             Random random = new Random();
             Point point;
             for (int i = 0; i < mines; i++)
             {
-                point = new Point(random.Next(0, xLenght), random.Next(0, xLenght), true);
-                while(GameField.Contains(point) || point.Equals(notGenerate))
-                    point = new Point(random.Next(0, xLenght), random.Next(0, xLenght), true);
+                point = new Point(random.Next(0, xLenght), random.Next(0, yLenght), true);
+                while (GameField.Contains(point) || point.Equals(notGenerate))
+                    point = new Point(random.Next(0, xLenght), random.Next(0, yLenght), true);
                 GameField.Add(point);
             }
+            OpenPoints(notGenerate);
+        }
+
+        public void Restart(Point notGenerate)
+        {
+            double k = 10 / width * height;
+            GameField = new List<Point>();
+            Random random = new Random();
+            Point point;
+            for (int i = 0; i < mines; i++)
+            {
+                point = new Point(random.Next(0, width), random.Next(0, height), true);
+                while (GameField.Contains(point) || point.Equals(notGenerate))
+                    point = new Point(random.Next(0, width), random.Next(0, height), true);
+                GameField.Add(point);
+            }
+            OpenPoints(notGenerate);
         }
 
         public Point OpenPoint(Point point)
@@ -97,11 +123,5 @@ namespace MainsweeperConsole
             }
         }
 
-    }
-    class Program
-    {
-        static void Main(string[] args)
-        {
-        }
     }
 }

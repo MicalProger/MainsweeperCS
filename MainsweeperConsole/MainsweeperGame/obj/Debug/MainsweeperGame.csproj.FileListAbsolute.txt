@@ -1,0 +1,5 @@
+C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperConsole\MainsweeperGame\bin\Debug\MainsweeperGame.dll
+C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperConsole\MainsweeperGame\bin\Debug\MainsweeperGame.pdb
+C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperConsole\MainsweeperGame\obj\Debug\MainsweeperGame.csproj.CoreCompileInputs.cache
+C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperConsole\MainsweeperGame\obj\Debug\MainsweeperGame.dll
+C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperConsole\MainsweeperGame\obj\Debug\MainsweeperGame.pdb
