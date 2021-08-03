@@ -49,7 +49,6 @@ namespace MainsweeperConsole
             double k = 10 / xLenght * yLenght;
             GameField = new List<Point>();
             Random random = new Random();
-            int x, y = 0;
             Point point;
             for (int i = 0; i < minaCount; i++)
             {
@@ -83,7 +82,16 @@ namespace MainsweeperConsole
 
         public void OpenPoints(Point start)
         {
-
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    if(GameField.FirstOrDefault(k => (start + new Point(i, j, false)).Equals(k)).IsMine)
+                    {
+                          
+                    }
+                }
+            }
         }
 
     }
