@@ -30,30 +30,36 @@ namespace MainsweeperDesktop.Pages
             ButtonsWP.Width = w * CellSize;
             Game = new Mainsweeper(w, h, mines, new MainsweeperGame.Point(0, 0, false));
             UpdateField();
-            
+
         }
 
         void OnCellOpen(object sender, RoutedEventArgs e)
         {
-            Game.OpenPoints((sender as Button).Tag as MainsweeperGame.Point);
+            if (Game.GetPointByPosition((sender as Button).Tag as MainsweeperGame.Point) != null)
+            {
+                Game.Restart((sender as Button).Tag as MainsweeperGame.Point);
+            }
+            else
+                Game.OpenPoints((sender as Button).Tag as MainsweeperGame.Point);
             UpdateField();
         }
 
         public void UpdateField()
         {
             ButtonsWP.Children.Clear();
-            for (int i = 0; i < Game.width; i++)
+            for (int i = 0; i < Game.Width; i++)
             {
-                for (int j = 0; j < Game.height; j++)
+                for (int j = 0; j < Game.Height; j++)
                 {
                     var tmpPoint = Game.GetPointByPosition(new MainsweeperGame.Point(i, j, false));
-                    var tmpButton = new Button() {
+                    var tmpButton = new Button()
+                    {
                         Width = CellSize,
                         Height = CellSize,
                         Tag = tmpPoint ?? new MainsweeperGame.Point(i, j, false)
                     };
-                    
-                    if(tmpPoint != null)
+
+                    if (tmpPoint != null)
                     {
                         if (tmpPoint.MineAround == 0 && !tmpPoint.IsMine)
                             tmpButton.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));

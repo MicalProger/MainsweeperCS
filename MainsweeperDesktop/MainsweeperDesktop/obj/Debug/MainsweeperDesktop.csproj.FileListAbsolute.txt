@@ -13,9 +13,7 @@ C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\obj\Debug\MainsweeperDesktop.csproj.CoreCompileInputs.cache
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\obj\Debug\MainsweeperDesktop.exe
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\obj\Debug\MainsweeperDesktop.pdb
-C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\bin\Debug\MainsweeperGame.dll
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\bin\Debug\Newtonsoft.Json.dll
-C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\bin\Debug\MainsweeperGame.pdb
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\bin\Debug\Newtonsoft.Json.xml
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\obj\Debug\Pages\GamePage.g.cs
 C:\Users\RazRab\source\repos\MainsweeperCS\MainsweeperDesktop\MainsweeperDesktop\obj\Debug\Pages\RecordsPage.g.cs
