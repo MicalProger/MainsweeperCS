@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MainsweeperGame
 {
@@ -43,27 +41,29 @@ namespace MainsweeperGame
     public class Mainsweeper
     {
 
-        Stopwatch time;
-        public bool IsGameOwer;
+        public Stopwatch GameTime;
+        public bool IsGameOver;
         public int Width, Height, Mines, Attempts;
         public List<Point> GameField;
         public Point GetPointByPosition(Point point)
         {
             if (GameField == null)
                 return null;
-               return GameField.FirstOrDefault(i => i.X == point.X && i.Y == point.Y);
+            return GameField.FirstOrDefault(i => i.X == point.X && i.Y == point.Y);
         }
         public Mainsweeper(int xLenght, int yLenght, int mines)
         {
             Width = xLenght;
             Height = yLenght;
             this.Mines = mines;
-            
+
         }
 
         public void GenerateMap(Point notGenerate)
         {
+            GameTime = new Stopwatch();
             GameField = new List<Point>();
+            IsGameOver = false;
             Random random = new Random(1);
             Point point;
             for (int i = 0; i < Mines; i++)
@@ -73,15 +73,13 @@ namespace MainsweeperGame
                     point = new Point(random.Next(0, Width), random.Next(0, Height), true);
                 GameField.Add(point);
             }
+            GameTime.Restart();
+            Attempts++;
         }
 
-        public Point OpenPoint(Point point)
+        public Point CountMinesAround(Point point)
         {
             Point final = new Point(point.X, point.Y, false);
-            if (GameField.Any(k => k.Equals(point) && k.IsMine))
-            {
-                return null;
-            }
             for (int i = -1; i < 2; i++)
             {
                 for (int j = -1; j < 2; j++)
@@ -99,15 +97,21 @@ namespace MainsweeperGame
 
         public void OpenPoints(Point start)
         {
-            var local = OpenPoint(start);
+            Point local = GetPointByPosition(start);
+            if (local == null)
+                local = CountMinesAround(start);
             if (local.MineAround != 0 && local.IsMine == false)
             {
                 GameField.Add(local);
                 return;
             }
+            if (local.MineAround == 0 && local.IsMine == false)
+            {
+                GameField.Add(local);
+            }
             else if (local.IsMine == true)
             {
-                IsGameOwer = true;
+                IsGameOver = true;
                 return;
             }
             Attempts++;
@@ -117,7 +121,7 @@ namespace MainsweeperGame
                 {
                     if (i == 0 && j == 0)
                         continue;
-                    Point tmpPoint = OpenPoint(start + new Point(i, j, false));
+                    Point tmpPoint = CountMinesAround(start + new Point(i, j));
                     if (tmpPoint == null)
                         continue;
                     if (tmpPoint.X < 0 || tmpPoint.X > Width || tmpPoint.Y < 0 || tmpPoint.Y > Height)

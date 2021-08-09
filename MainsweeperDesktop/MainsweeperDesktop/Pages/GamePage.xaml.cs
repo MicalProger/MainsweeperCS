@@ -30,6 +30,7 @@ namespace MainsweeperDesktop.Pages
             ButtonsWP.Width = w * CellSize;
             Game = new Mainsweeper(w, h, mines);
             UpdateField();
+            DataContext = Game;
 
         }
 
@@ -39,8 +40,13 @@ namespace MainsweeperDesktop.Pages
             {
                 Game.GenerateMap((sender as Button).Tag as MainsweeperGame.Point);
             }
-            Game.OpenPoints((sender as Button).Tag as MainsweeperGame.Point);
+            var x = (sender as Button).Tag as MainsweeperGame.Point;
+            Game.OpenPoints(x);
             UpdateField();
+            if (Game.IsGameOver)
+            {
+                GameOverGrid.Visibility = Visibility.Visible;
+            }
         }
 
         public void UpdateField()
@@ -50,12 +56,12 @@ namespace MainsweeperDesktop.Pages
             {
                 for (int j = 0; j < Game.Height; j++)
                 {
-                    var tmpPoint = Game.GetPointByPosition(new MainsweeperGame.Point(j, i, false));
+                    var tmpPoint = Game.GetPointByPosition(new MainsweeperGame.Point(i, j, false));
                     var tmpButton = new Button()
                     {
                         Width = CellSize,
                         Height = CellSize,
-                        Tag = tmpPoint ?? new MainsweeperGame.Point(j, i, false)
+                        Tag = tmpPoint ?? new MainsweeperGame.Point(i, j, false)
                     };
 
                     if (tmpPoint != null)
@@ -71,6 +77,13 @@ namespace MainsweeperDesktop.Pages
                     ButtonsWP.Children.Add(tmpButton);
                 }
             }
+        }
+        void OnRestartGame(object sender, RoutedEventArgs e)
+        {
+            GameOverGrid.Visibility = Visibility.Collapsed;
+            Game.GameField = new List<MainsweeperGame.Point>();
+            Game.Attempts = 0;
+            UpdateField();
         }
     }
 }

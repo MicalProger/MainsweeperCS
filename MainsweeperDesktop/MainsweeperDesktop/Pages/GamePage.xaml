@@ -10,5 +10,13 @@
 
     <Grid>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Name="ButtonsWP"/>
+        <Grid x:Name="GameOverGrid" Visibility="Collapsed" Background="#CC959595">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Вы проиграли" FontSize="30"/>
+                <TextBlock Text="{Binding Attempts, StringFormat={}за {0} попыток}"/>
+                <TextBlock Text="{Binding GameTime.Elapsed, StringFormat={}Время {0}}"/>
+                <Button Click="OnRestartGame">Начать заново</Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
