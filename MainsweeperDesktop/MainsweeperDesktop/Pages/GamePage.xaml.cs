@@ -28,19 +28,18 @@ namespace MainsweeperDesktop.Pages
             InitializeComponent();
             ButtonsWP.Height = h * CellSize;
             ButtonsWP.Width = w * CellSize;
-            Game = new Mainsweeper(w, h, mines, new MainsweeperGame.Point(0, 0, false));
+            Game = new Mainsweeper(w, h, mines);
             UpdateField();
 
         }
 
         void OnCellOpen(object sender, RoutedEventArgs e)
         {
-            if (Game.GetPointByPosition((sender as Button).Tag as MainsweeperGame.Point) != null)
+            if (Game.Attempts == 0)
             {
-                Game.Restart((sender as Button).Tag as MainsweeperGame.Point);
+                Game.GenerateMap((sender as Button).Tag as MainsweeperGame.Point);
             }
-            else
-                Game.OpenPoints((sender as Button).Tag as MainsweeperGame.Point);
+            Game.OpenPoints((sender as Button).Tag as MainsweeperGame.Point);
             UpdateField();
         }
 
@@ -51,12 +50,12 @@ namespace MainsweeperDesktop.Pages
             {
                 for (int j = 0; j < Game.Height; j++)
                 {
-                    var tmpPoint = Game.GetPointByPosition(new MainsweeperGame.Point(i, j, false));
+                    var tmpPoint = Game.GetPointByPosition(new MainsweeperGame.Point(j, i, false));
                     var tmpButton = new Button()
                     {
                         Width = CellSize,
                         Height = CellSize,
-                        Tag = tmpPoint ?? new MainsweeperGame.Point(i, j, false)
+                        Tag = tmpPoint ?? new MainsweeperGame.Point(j, i, false)
                     };
 
                     if (tmpPoint != null)

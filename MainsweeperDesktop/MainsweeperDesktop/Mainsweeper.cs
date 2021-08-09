@@ -44,36 +44,27 @@ namespace MainsweeperGame
     {
 
         Stopwatch time;
+        public bool IsGameOwer;
         public int Width, Height, Mines, Attempts;
         public List<Point> GameField;
         public Point GetPointByPosition(Point point)
         {
-            return GameField.FirstOrDefault(i => i.X == point.X && i.Y == point.Y);
+            if (GameField == null)
+                return null;
+               return GameField.FirstOrDefault(i => i.X == point.X && i.Y == point.Y);
         }
-        public Mainsweeper(int xLenght, int yLenght, int mines, Point notGenerate)
+        public Mainsweeper(int xLenght, int yLenght, int mines)
         {
             Width = xLenght;
             Height = yLenght;
             this.Mines = mines;
-            double k = 10 / xLenght * yLenght;
-            GameField = new List<Point>();
-            Random random = new Random();
-            Point point;
-            for (int i = 0; i < mines; i++)
-            {
-                point = new Point(random.Next(0, xLenght), random.Next(0, yLenght), true);
-                while (GameField.Contains(point) || point.Equals(notGenerate))
-                    point = new Point(random.Next(0, xLenght), random.Next(0, yLenght), true);
-                GameField.Add(point);
-            }
-            OpenPoints(notGenerate);
+            
         }
 
-        public void Restart(Point notGenerate)
+        public void GenerateMap(Point notGenerate)
         {
-            double k = 10 / Width * Height;
             GameField = new List<Point>();
-            Random random = new Random();
+            Random random = new Random(1);
             Point point;
             for (int i = 0; i < Mines; i++)
             {
@@ -82,7 +73,6 @@ namespace MainsweeperGame
                     point = new Point(random.Next(0, Width), random.Next(0, Height), true);
                 GameField.Add(point);
             }
-            OpenPoints(notGenerate);
         }
 
         public Point OpenPoint(Point point)
@@ -109,22 +99,38 @@ namespace MainsweeperGame
 
         public void OpenPoints(Point start)
         {
+            var local = OpenPoint(start);
+            if (local.MineAround != 0 && local.IsMine == false)
+            {
+                GameField.Add(local);
+                return;
+            }
+            else if (local.IsMine == true)
+            {
+                IsGameOwer = true;
+                return;
+            }
             Attempts++;
             for (int i = -1; i < 2; i++)
             {
                 for (int j = -1; j < 2; j++)
                 {
+                    if (i == 0 && j == 0)
+                        continue;
                     Point tmpPoint = OpenPoint(start + new Point(i, j, false));
                     if (tmpPoint == null)
                         continue;
-                    if (tmpPoint.X <= 0 || tmpPoint.X > Width || tmpPoint.Y <= 0 || tmpPoint.Y > Height)
+                    if (tmpPoint.X < 0 || tmpPoint.X > Width || tmpPoint.Y < 0 || tmpPoint.Y > Height)
                         continue;
                     if (tmpPoint.Equals(start))
                         continue;
                     if (GameField.Any(k => k.Equals(tmpPoint)))
                         continue;
                     if (tmpPoint.MineAround == 0)
+                    {
+                        GameField.Add(tmpPoint);
                         OpenPoints(tmpPoint);
+                    }
                     else
                         GameField.Add(tmpPoint);
                 }
